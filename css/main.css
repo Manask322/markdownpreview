@@ -14,6 +14,7 @@
   --button-bg: #fff;
   --button-border: #ccc;
   --button-hover-border: #333;
+  --header-height: 60px;
 }
 
 /* Dark theme */
@@ -36,16 +37,21 @@
 
 * { box-sizing: border-box; }
 
-body {
+html, body {
+  height: 100%;
+  overflow: hidden;
   margin: 0;
+}
+
+body {
   font-family: "Inter", system-ui, sans-serif;
   background: var(--bg);
   color: var(--text);
-  min-height: 100vh;
 }
 
 .header {
-  padding: 1rem 1.5rem;
+  height: var(--header-height);
+  padding: 0 1.5rem;
   background: var(--surface);
   border-bottom: 1px solid var(--border);
   font-size: 1.25rem;
@@ -85,69 +91,6 @@ body {
   border-color: var(--focus-border);
 }
 
-.container {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0;
-  min-height: calc(100vh - 52px);
-}
-
-.panel {
-  flex: 1 1 50%;
-  min-width: 280px;
-  display: flex;
-  flex-direction: column;
-  padding: 1rem;
-}
-
-.panel-label {
-  font-size: 0.875rem;
-  font-weight: 600;
-  color: var(--muted);
-  margin-bottom: 0.5rem;
-}
-
-.input-area {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-  flex: 1;
-}
-
-.input-area textarea {
-  flex: 1;
-  min-height: 200px;
-  padding: 0.75rem;
-  font-family: ui-monospace, monospace;
-  font-size: 0.9rem;
-  border: 1px solid var(--border);
-  border-radius: 6px;
-  resize: vertical;
-  background: var(--surface);
-  color: var(--text);
-}
-
-.input-area textarea:focus {
-  outline: none;
-  border-color: var(--focus-border);
-  box-shadow: 0 0 0 2px var(--focus-ring);
-}
-
-.input-area textarea::placeholder {
-  color: var(--muted);
-}
-
-.file-input-wrap {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-.file-input-wrap input[type="file"] {
-  font-size: 0.875rem;
-  color: var(--text);
-}
-
 .share-wrap {
   display: flex;
   align-items: center;
@@ -173,9 +116,79 @@ body {
 }
 .share-feedback.error { color: var(--error); }
 
+.container {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 0;
+  height: calc(100vh - var(--header-height));
+  overflow: hidden;
+}
+
+.panel {
+  flex: 1 1 50%;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+  overflow: hidden;
+}
+
+.panel-label {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--muted);
+  margin-bottom: 0.5rem;
+  flex-shrink: 0;
+}
+
+.input-area {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  flex: 1;
+  overflow: hidden;
+  min-height: 0;
+}
+
+.input-area textarea {
+  flex: 1;
+  min-height: 0;
+  padding: 0.75rem;
+  font-family: ui-monospace, monospace;
+  font-size: 0.9rem;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  resize: none;
+  background: var(--surface);
+  color: var(--text);
+  overflow: auto;
+}
+
+.input-area textarea:focus {
+  outline: none;
+  border-color: var(--focus-border);
+  box-shadow: 0 0 0 2px var(--focus-ring);
+}
+
+.input-area textarea::placeholder {
+  color: var(--muted);
+}
+
+.file-input-wrap {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-shrink: 0;
+}
+
+.file-input-wrap input[type="file"] {
+  font-size: 0.875rem;
+  color: var(--text);
+}
+
 .preview-pane {
   flex: 1;
-  min-height: 200px;
+  min-height: 0;
   padding: 1rem;
   background: var(--surface);
   border: 1px solid var(--border);
@@ -203,3 +216,42 @@ body {
 }
 .preview-pane p { margin: 0.5rem 0; }
 .preview-pane ul, .preview-pane ol { margin: 0.5rem 0; padding-left: 1.5rem; }
+
+/* Responsive: stack panels on narrow screens */
+@media (max-width: 600px) {
+  :root {
+    --header-height: auto;
+  }
+
+  html, body {
+    height: auto;
+    overflow: auto;
+  }
+
+  .header {
+    height: auto;
+    padding: 1rem 1.5rem;
+  }
+
+  .container {
+    flex-wrap: wrap;
+    height: auto;
+    min-height: calc(100vh - 120px);
+    overflow: visible;
+  }
+
+  .panel {
+    flex: 1 1 100%;
+    min-width: 100%;
+    min-height: 50vh;
+  }
+
+  .input-area textarea {
+    min-height: 200px;
+    resize: vertical;
+  }
+
+  .preview-pane {
+    min-height: 200px;
+  }
+}

@@ -1,14 +1,14 @@
 window.MdPreview = window.MdPreview || {};
 
 (function (MdPreview) {
-  MdPreview.MAX_ENCODED_LENGTH = 1500;
+  MdPreview.MAX_ENCODED_LENGTH = 8000;
 
   function encodeForUrl(text) {
-    return btoa(encodeURIComponent(text));
+    return LZString.compressToEncodedURIComponent(text);
   }
 
   function decodeFromUrl(encoded) {
-    return decodeURIComponent(atob(encoded));
+    return LZString.decompressFromEncodedURIComponent(encoded);
   }
 
   function loadFromUrl(callback) {
@@ -16,7 +16,8 @@ window.MdPreview = window.MdPreview || {};
     var md = params.get('md');
     if (!md) return;
     try {
-      callback(decodeFromUrl(md));
+      var decoded = decodeFromUrl(md);
+      if (decoded) callback(decoded);
     } catch (e) { /* ignore invalid/corrupt param */ }
   }
 
