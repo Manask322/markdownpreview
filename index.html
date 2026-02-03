@@ -14,35 +14,31 @@
 </head>
 <body>
   <header class="header">
-    <span>Markdown Preview</span>
-    <div class="header-toolbar">
-      <div class="share-wrap">
-        <button type="button" id="share-btn">Copy preview link</button>
-        <span class="share-feedback" id="share-feedback" aria-live="polite"></span>
+    <div class="header-left">
+      <span class="logo">✨ Markdown Preview</span>
+      <div class="file-upload-wrap">
+        <label for="file-input" class="file-upload-btn">📁 Load file</label>
+        <input type="file" id="file-input" accept=".md,.markdown" />
       </div>
-      <label for="theme-select">Theme</label>
+    </div>
+    <div class="header-right">
+      <button type="button" id="share-btn">🔗 Share</button>
+      <span class="share-feedback" id="share-feedback" aria-live="polite"></span>
       <select id="theme-select" aria-label="Color theme">
-        <option value="light">Light</option>
-        <option value="dark">Dark</option>
-        <option value="system">System</option>
+        <option value="light">☀️ Light</option>
+        <option value="dark">🌙 Dark</option>
+        <option value="system">💻 Auto</option>
       </select>
-      <label for="font-select">Font</label>
       <select id="font-select" aria-label="Font family"></select>
     </div>
   </header>
   <div class="container">
     <div class="panel">
-      <div class="panel-label">Markdown input</div>
       <div class="input-area">
-        <textarea id="md-input" placeholder="Type or paste Markdown here, or load an .md file below."></textarea>
-        <div class="file-input-wrap">
-          <label for="file-input">Load .md file:</label>
-          <input type="file" id="file-input" accept=".md,.markdown" />
-        </div>
+        <textarea id="md-input" placeholder="Start typing your markdown here... ✍️"></textarea>
       </div>
     </div>
-    <div class="panel">
-      <div class="panel-label">Preview</div>
+    <div class="panel preview-panel">
       <div class="preview-pane" id="preview"></div>
     </div>
   </div>
