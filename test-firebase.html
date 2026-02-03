@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Firebase Connection Test</title>
+  <style>
+    body {
+      font-family: system-ui, -apple-system, sans-serif;
+      max-width: 800px;
+      margin: 50px auto;
+      padding: 20px;
+      line-height: 1.6;
+    }
+    .status {
+      padding: 15px;
+      margin: 10px 0;
+      border-radius: 5px;
+      font-weight: bold;
+    }
+    .success { background: #d4edda; color: #155724; }
+    .error { background: #f8d7da; color: #721c24; }
+    .info { background: #d1ecf1; color: #0c5460; }
+    pre { background: #f5f5f5; padding: 10px; overflow-x: auto; }
+    button {
+      background: #007bff;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+    button:hover { background: #0056b3; }
+    button:disabled { background: #ccc; cursor: not-allowed; }
+  </style>
+</head>
+<body>
+  <h1>Firebase Connection Test</h1>
+  <p>This page tests if Firebase Firestore is properly configured for the Markdown Preview app.</p>
+
+  <button id="testBtn" onclick="runTest()">Run Firebase Test</button>
+
+  <div id="results"></div>
+
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+
+  <script>
+    // Firebase Configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyDgswshmRC128JziOr0gvXDfY_iVOpgWuI",
+      authDomain: "markdownpreviewer-6e562.firebaseapp.com",
+      projectId: "markdownpreviewer-6e562",
+      storageBucket: "markdownpreviewer-6e562.firebasestorage.app",
+      messagingSenderId: "891363906038",
+      appId: "1:891363906038:web:bb45d0118296cb7497f7d7",
+      measurementId: "G-YBDZQJYNS2"
+    };
+
+    function log(message, type = 'info') {
+      const results = document.getElementById('results');
+      const div = document.createElement('div');
+      div.className = 'status ' + type;
+      div.innerHTML = message;
+      results.appendChild(div);
+    }
+
+    async function runTest() {
+      const testBtn = document.getElementById('testBtn');
+      testBtn.disabled = true;
+      document.getElementById('results').innerHTML = '';
+
+      log('Starting Firebase test...', 'info');
+
+      try {
+        // Initialize Firebase
+        log('✓ Initializing Firebase...', 'info');
+        const app = firebase.initializeApp(firebaseConfig);
+        log('✓ Firebase initialized successfully', 'success');
+
+        // Initialize Firestore
+        log('✓ Initializing Firestore...', 'info');
+        const db = firebase.firestore();
+        log('✓ Firestore initialized successfully', 'success');
+
+        // Test write operation
+        log('✓ Testing write to Firestore...', 'info');
+        const testId = 'test_' + Date.now();
+        const expiresAt = new Date();
+        expiresAt.setDate(expiresAt.getDate() + 30);
+
+        await db.collection('shares').doc(testId).set({
+          content: 'This is a test share created at ' + new Date().toISOString(),
+          createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+          expiresAt: firebase.firestore.Timestamp.fromDate(expiresAt)
+        });
+        log('✓ Successfully wrote test document to Firestore!', 'success');
+        log('Document ID: <code>' + testId + '</code>', 'info');
+
+        // Test read operation
+        log('✓ Testing read from Firestore...', 'info');
+        const doc = await db.collection('shares').doc(testId).get();
+        if (doc.exists) {
+          log('✓ Successfully read test document from Firestore!', 'success');
+          log('<pre>' + JSON.stringify(doc.data(), null, 2) + '</pre>', 'info');
+        } else {
+          log('✗ Document not found', 'error');
+        }
+
+        // Final result
+        log('<strong>🎉 All tests passed! Firebase is working correctly.</strong>', 'success');
+        log('Your Markdown Preview app should now be able to create share links without length limits.', 'info');
+
+      } catch (error) {
+        log('✗ Firebase test failed', 'error');
+        log('<strong>Error:</strong> ' + error.message, 'error');
+        log('<pre>' + error.stack + '</pre>', 'error');
+
+        // Provide helpful suggestions
+        if (error.code === 'permission-denied') {
+          log('<strong>Solution:</strong> Check your Firestore security rules. They should allow reads and creates.', 'info');
+        } else if (error.message.includes('firestore')) {
+          log('<strong>Solution:</strong> Make sure Firestore is enabled in your Firebase Console.', 'info');
+        }
+      } finally {
+        testBtn.disabled = false;
+      }
+    }
+  </script>
+</body>
+</html>
