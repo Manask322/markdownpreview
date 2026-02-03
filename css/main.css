@@ -1,0 +1,205 @@
+/* Variables - light theme (default) */
+:root {
+  --bg: #f5f5f5;
+  --text: #222;
+  --surface: #fff;
+  --border: #e0e0e0;
+  --muted: #555;
+  --focus-border: #333;
+  --focus-ring: rgba(0, 0, 0, 0.1);
+  --preview-code-bg: #f0f0f0;
+  --blockquote-border: #ccc;
+  --blockquote-text: #555;
+  --error: #c00;
+  --button-bg: #fff;
+  --button-border: #ccc;
+  --button-hover-border: #333;
+}
+
+/* Dark theme */
+[data-theme="dark"] {
+  --bg: #1a1a1a;
+  --text: #e5e5e5;
+  --surface: #2d2d2d;
+  --border: #404040;
+  --muted: #a0a0a0;
+  --focus-border: #a0a0a0;
+  --focus-ring: rgba(255, 255, 255, 0.15);
+  --preview-code-bg: #383838;
+  --blockquote-border: #555;
+  --blockquote-text: #b0b0b0;
+  --error: #f66;
+  --button-bg: #2d2d2d;
+  --button-border: #505050;
+  --button-hover-border: #a0a0a0;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: "Inter", system-ui, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+}
+
+.header {
+  padding: 1rem 1.5rem;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  font-size: 1.25rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.header-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.header-toolbar label {
+  font-size: 0.875rem;
+  font-weight: 400;
+  color: var(--muted);
+}
+
+.header-toolbar select {
+  font-size: 0.875rem;
+  padding: 0.35rem 0.5rem;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--button-bg);
+  color: var(--text);
+  cursor: pointer;
+}
+
+.header-toolbar select:focus {
+  outline: none;
+  border-color: var(--focus-border);
+}
+
+.container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0;
+  min-height: calc(100vh - 52px);
+}
+
+.panel {
+  flex: 1 1 50%;
+  min-width: 280px;
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+}
+
+.panel-label {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--muted);
+  margin-bottom: 0.5rem;
+}
+
+.input-area {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  flex: 1;
+}
+
+.input-area textarea {
+  flex: 1;
+  min-height: 200px;
+  padding: 0.75rem;
+  font-family: ui-monospace, monospace;
+  font-size: 0.9rem;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  resize: vertical;
+  background: var(--surface);
+  color: var(--text);
+}
+
+.input-area textarea:focus {
+  outline: none;
+  border-color: var(--focus-border);
+  box-shadow: 0 0 0 2px var(--focus-ring);
+}
+
+.input-area textarea::placeholder {
+  color: var(--muted);
+}
+
+.file-input-wrap {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.file-input-wrap input[type="file"] {
+  font-size: 0.875rem;
+  color: var(--text);
+}
+
+.share-wrap {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.share-wrap button {
+  font-size: 0.875rem;
+  padding: 0.4rem 0.75rem;
+  border: 1px solid var(--button-border);
+  border-radius: 6px;
+  background: var(--button-bg);
+  color: var(--text);
+  cursor: pointer;
+}
+
+.share-wrap button:hover { border-color: var(--button-hover-border); }
+.share-wrap button:disabled { opacity: 0.6; cursor: not-allowed; }
+.share-feedback {
+  font-size: 0.875rem;
+  color: var(--muted);
+}
+.share-feedback.error { color: var(--error); }
+
+.preview-pane {
+  flex: 1;
+  min-height: 200px;
+  padding: 1rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  overflow: auto;
+  color: var(--text);
+}
+
+.preview-pane h1 { font-size: 1.5rem; margin-top: 0; }
+.preview-pane h2 { font-size: 1.25rem; }
+.preview-pane pre {
+  background: var(--preview-code-bg);
+  padding: 0.75rem;
+  border-radius: 4px;
+  overflow-x: auto;
+  font-size: 0.85rem;
+}
+.preview-pane code { font-family: ui-monospace, monospace; font-size: 0.9em; }
+.preview-pane pre code { background: none; padding: 0; }
+.preview-pane blockquote {
+  border-left: 4px solid var(--blockquote-border);
+  margin: 0.5rem 0;
+  padding-left: 1rem;
+  color: var(--blockquote-text);
+}
+.preview-pane p { margin: 0.5rem 0; }
+.preview-pane ul, .preview-pane ol { margin: 0.5rem 0; padding-left: 1.5rem; }

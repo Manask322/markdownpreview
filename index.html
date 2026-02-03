@@ -7,102 +7,25 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Markdown Preview</title>
-  <style>
-    * { box-sizing: border-box; }
-    body {
-      margin: 0;
-      font-family: system-ui, -apple-system, sans-serif;
-      background: #f5f5f5;
-      color: #222;
-      min-height: 100vh;
-    }
-    .header {
-      padding: 1rem 1.5rem;
-      background: #fff;
-      border-bottom: 1px solid #e0e0e0;
-      font-size: 1.25rem;
-      font-weight: 600;
-    }
-    .container {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0;
-      min-height: calc(100vh - 52px);
-    }
-    .panel {
-      flex: 1 1 50%;
-      min-width: 280px;
-      display: flex;
-      flex-direction: column;
-      padding: 1rem;
-    }
-    .panel-label {
-      font-size: 0.875rem;
-      font-weight: 600;
-      color: #555;
-      margin-bottom: 0.5rem;
-    }
-    .input-area {
-      display: flex;
-      flex-direction: column;
-      gap: 0.5rem;
-      flex: 1;
-    }
-    .input-area textarea {
-      flex: 1;
-      min-height: 200px;
-      padding: 0.75rem;
-      font-family: ui-monospace, monospace;
-      font-size: 0.9rem;
-      border: 1px solid #ccc;
-      border-radius: 6px;
-      resize: vertical;
-    }
-    .input-area textarea:focus {
-      outline: none;
-      border-color: #333;
-      box-shadow: 0 0 0 2px rgba(0,0,0,0.1);
-    }
-    .file-input-wrap {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-    .file-input-wrap input[type="file"] {
-      font-size: 0.875rem;
-    }
-    .preview-pane {
-      flex: 1;
-      min-height: 200px;
-      padding: 1rem;
-      background: #fff;
-      border: 1px solid #e0e0e0;
-      border-radius: 6px;
-      overflow: auto;
-    }
-    .preview-pane h1 { font-size: 1.5rem; margin-top: 0; }
-    .preview-pane h2 { font-size: 1.25rem; }
-    .preview-pane pre {
-      background: #f0f0f0;
-      padding: 0.75rem;
-      border-radius: 4px;
-      overflow-x: auto;
-      font-size: 0.85rem;
-    }
-    .preview-pane code { font-family: ui-monospace, monospace; font-size: 0.9em; }
-    .preview-pane pre code { background: none; padding: 0; }
-    .preview-pane blockquote {
-      border-left: 4px solid #ccc;
-      margin: 0.5rem 0;
-      padding-left: 1rem;
-      color: #555;
-    }
-    .preview-pane p { margin: 0.5rem 0; }
-    .preview-pane ul, .preview-pane ol { margin: 0.5rem 0; padding-left: 1.5rem; }
-  </style>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Source+Sans+3:wght@400;600&family=Literata:opsz,wght@7..72,400;7..72,600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/main.css">
 </head>
 <body>
-  <header class="header">Markdown Preview</header>
+  <header class="header">
+    <span>Markdown Preview</span>
+    <div class="header-toolbar">
+      <label for="theme-select">Theme</label>
+      <select id="theme-select" aria-label="Color theme">
+        <option value="light">Light</option>
+        <option value="dark">Dark</option>
+        <option value="system">System</option>
+      </select>
+      <label for="font-select">Font</label>
+      <select id="font-select" aria-label="Font family"></select>
+    </div>
+  </header>
   <div class="container">
     <div class="panel">
       <div class="panel-label">Markdown input</div>
@@ -112,6 +35,10 @@
           <label for="file-input">Load .md file:</label>
           <input type="file" id="file-input" accept=".md,.markdown" />
         </div>
+        <div class="share-wrap">
+          <button type="button" id="share-btn">Copy preview link</button>
+          <span class="share-feedback" id="share-feedback" aria-live="polite"></span>
+        </div>
       </div>
     </div>
     <div class="panel">
@@ -120,33 +47,11 @@
     </div>
   </div>
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-  <script>
-    (function () {
-      var textarea = document.getElementById('md-input');
-      var preview = document.getElementById('preview');
-      var fileInput = document.getElementById('file-input');
-
-      function updatePreview() {
-        var raw = textarea.value || '';
-        preview.innerHTML = raw ? marked.parse(raw) : '<p class="muted">Preview will appear here.</p>';
-      }
-
-      textarea.addEventListener('input', updatePreview);
-
-      fileInput.addEventListener('change', function () {
-        var file = fileInput.files && fileInput.files[0];
-        if (!file) return;
-        var reader = new FileReader();
-        reader.onload = function () {
-          textarea.value = reader.result;
-          updatePreview();
-        };
-        reader.readAsText(file);
-        fileInput.value = '';
-      });
-
-      updatePreview();
-    })();
-  </script>
+  <script src="js/utils.js"></script>
+  <script src="js/preview.js"></script>
+  <script src="js/share.js"></script>
+  <script src="js/theme.js"></script>
+  <script src="js/fonts.js"></script>
+  <script src="js/main.js"></script>
 </body>
 </html>
