@@ -13,6 +13,22 @@ window.MdPreview = window.MdPreview || {};
 
   function loadFromUrl(callback) {
     var params = new URLSearchParams(window.location.search);
+
+    // Check for Firebase share ID first
+    var shareId = params.get('id');
+    if (shareId && MdPreview.loadFromFirebase) {
+      MdPreview.loadFromFirebase(shareId, function(error, content) {
+        if (error) {
+          console.error('Failed to load share:', error);
+          // Could show an error message to user here
+          return;
+        }
+        callback(content);
+      });
+      return;
+    }
+
+    // Fallback to legacy URL-encoded markdown
     var md = params.get('md');
     if (!md) return;
     try {
