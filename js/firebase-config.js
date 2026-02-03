@@ -1,3 +1,6 @@
+// Ensure MdPreview namespace exists
+window.MdPreview = window.MdPreview || {};
+
 // Firebase Configuration
 const firebaseConfig = {
   apiKey: "AIzaSyDgswshmRC128JziOr0gvXDfY_iVOpgWuI",

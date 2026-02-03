@@ -1,3 +1,6 @@
+// Ensure MdPreview namespace exists
+window.MdPreview = window.MdPreview || {};
+
 (function (MdPreview) {
   // Generate a random short ID
   function generateId(length) {
