@@ -1,0 +1,9 @@
+# Allow all search engines to crawl the site
+User-agent: *
+Allow: /
+
+# Disallow test pages
+Disallow: /test-firebase.html
+
+# Sitemap location
+Sitemap: https://markdownpreview.online/sitemap.xml
